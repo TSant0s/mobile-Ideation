@@ -1,6 +1,7 @@
 # Mobile-Ideation
 ---------------------------
 Enquadramento
+--------------
 A necessidade de boa comunicação e colaboração por parte de colegas de
 trabalho ou entre trabalhadores de uma organização são importantes fatores
 para realização de projetos, assim como para o seu sucesso, porém, o processo
