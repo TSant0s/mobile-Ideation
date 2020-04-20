@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Mobile Ideation</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email_hint">Email</string>
+    <string name="pw_hint">Password</string>
+    <string name="register_quote">Not Registered yet?</string>
+    <string name="groups">Groups</string>
+    <string name="challenges">Challenges</string>
+    <string name="store">Store</string>
+    <string name="profile">Profile</string>
+    <string name="routines">Routines</string>
+    <string name="rating">User Rating</string>
+
+
+</resources>
