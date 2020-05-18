@@ -57,7 +57,7 @@
         android:id="@+id/textView_profile_bio"
         android:layout_width="329dp"
         android:layout_height="142dp"
-        android:text="User Profile Bio"
+        android:text="O meu nome é oboé. Sou estudante no IADE  e tenho 28 anos."
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,5 +99,18 @@
             android:textSize="18dp" />
     </LinearLayout>
 
+    <!-- <ProgressBar
+         android:id="@+id/progressBar_challengePage"
+         style="?android:attr/progressBarStyleHorizontal"
+         android:layout_width="226dp"
+         android:layout_height="44dp"
+         android:scaleY="5"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.923"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/textView_challengePage_instructions"
+         app:layout_constraintVertical_bias="0.136" />-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+ </androidx.constraintlayout.widget.ConstraintLayout>

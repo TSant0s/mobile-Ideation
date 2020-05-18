@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,17 @@ private RecyclerView.Adapter groupAdapter;
 private RecyclerView.LayoutManager groupLayoutManager;
 private Retrofit Retrofit;
 ArrayList<Group> groups = new ArrayList<>();
+
+private SwipeRefreshLayout swipeRefreshLayout;
 private FloatingActionButton btnNewIdea;
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:3000/")
@@ -66,6 +73,7 @@ private FloatingActionButton btnNewIdea;
                 System.out.println("OnFailure" + t.getMessage());
             }
         });
+//------------------------------------------------
 
     }
 
@@ -75,6 +83,45 @@ private FloatingActionButton btnNewIdea;
         View v = inflater.inflate(R.layout.fragment_groups,container,false);
         groupRecyclerView = v.findViewById(R.id.groups_RecyclerView);
         btnNewIdea = v.findViewById(R.id.button_new_idea);
+        swipeRefreshLayout=v.findViewById(R.id.swipeRefreshLayout_groups);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://10.0.2.2:3000/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                INodeJS api  = retrofit.create(INodeJS.class);
+
+
+                Call<List<Group>> call = api.getGroups();
+                call.enqueue(new Callback<List<Group>>() {
+                    @Override
+                    public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                        if(!response.isSuccessful()){
+                            System.out.println("!= Successful" + response.code());
+                            return;
+                        }
+
+                        groups = (ArrayList<Group>) response.body();
+                        setupRecyclerView();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Group>> call, Throwable t) {
+                        System.out.println("OnFailure" + t.getMessage());
+                    }
+                });
+
+                setupRecyclerView();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
+
         btnNewIdea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -54,7 +54,7 @@ public class IdeaDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String ideaName = editTextIdeaTitle.getText().toString();
                         String ideaDescription = editTextIdeaDescription.getText().toString();
-                        Group newGroup = new Group(ideaName,ideaDescription,"idea");
+                        Group newGroup = new Group(ideaName,ideaDescription,"idea","1234");
                         createNewIdea(newGroup);
 
 

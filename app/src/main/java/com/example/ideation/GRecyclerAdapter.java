@@ -23,17 +23,19 @@ public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.Grou
 
     public static class GroupViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewGroupName;
+        public TextView textViewGroupUser;
          CardView group_item;
 
         public GroupViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewGroupName = itemView.findViewById(R.id.textView_group_name);
+            textViewGroupUser=itemView.findViewById(R.id.textView_group_username);
             group_item = itemView.findViewById(R.id.group_item);
         }
     }
 
 
-    public GRecyclerAdapter(List<Group> gGroupList, Context mContext){
+    public GRecyclerAdapter(ArrayList<Group> gGroupList, Context mContext){
         this.gGroupList=gGroupList;
         this.mContext=mContext;
     }
@@ -58,6 +60,8 @@ public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.Grou
         }
     });
     holder.textViewGroupName.setText(currentGroup.getName());
+
+    holder.textViewGroupUser.setText("Creator:  " + currentGroup.getEmail());
     }
 
     @Override

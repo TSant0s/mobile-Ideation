@@ -123,10 +123,10 @@ app.get('/login/', function (req, res) {
 
 
 
-/*=====================================================================================================================*/
-//GET GROUPS
+/*===========================================================/GROUPS/==========================================================*/
+
 app.get('/group',(req,res)=>{
-    conn.query('SELECT * FROM `groups`',(err,rows,fields)=>{
+    conn.query('SELECT ideaGroups.*,user.email FROM ideaGroups INNER JOIN user ON ideaGroups.`userID_creator`=user.userID ',(err,rows,fields)=>{
         if(!err)
         res.send(rows);
         else
@@ -144,6 +144,160 @@ app.get('/user/:email',(req,res)=>{
         console.log(err);
     })
 });
+
+app.post('/group/new',(req,res,next)=>{
+   
+    
+    var ideaTitle=req.body.name;
+    var description =req.body.description;
+    
+    conn.query('INSERT INTO `ideaGroups`(`name`, `description`, `type`,`userID_creator`) VALUES (?,?,?,?)',[ideaTitle,description,"idea",7],function(err,result,fields){
+        conn.on('error',function(err){
+            console.log('MYSQL Error',err);
+        });
+    }); 
+
+    res.send("oke")
+
+        
+    
+})
+
+
+
+//--------------------------------------------------------------- FEEDBACK
+
+app.get('/feedback/userId/:userID',(req,res)=>{
+    var userID=req.params.userID;
+    conn.query('SELECT feedback.*,user.email FROM feedback INNER JOIN user ON feedback.userID_fk=user.userID WHERE userID = ?',[userID],(err,rows,fields)=>{
+        if(!err)
+        res.send(rows);
+        else
+        console.log(err);
+    })
+});
+
+
+
+
+
+
+app.get('/feedback/:groupId',(req,res)=>{
+    var groupId=req.params.groupId;
+    conn.query('SELECT feedback.*,user.email FROM feedback INNER JOIN user ON feedback.userID_fk=user.userID WHERE grupoID_fk = ? ORDER BY rating DESC ',[groupId],(err,rows,fields)=>{
+        if(!err)
+        res.send(rows);
+        else
+        console.log(err);
+    })
+});
+
+app.post('/feedback/new',(req,res,next)=>{
+   
+    var text=req.body.text;
+   
+    
+    conn.query('INSERT INTO `feedback`(`text`, `rating`, `userID_fk`,`grupoID_fk`) VALUES (?,?,?,?)',[text,1,7,1],function(err,result,fields){
+        conn.on('error',function(err){
+            console.log('MYSQL Error',err);
+        });
+    }); 
+
+        
+    
+})
+
+//--------------------------------------------------- CHALLENGES ------------------------
+
+app.get('/challenge',(req,res)=>{
+    conn.query('SELECT challenges.*,user.email FROM challenges INNER JOIN user ON challenges.challenge_userID=user.userID',(err,rows,fields)=>{
+        if(!err)
+        res.send(rows);
+        else
+        console.log(err);
+    })
+});
+
+
+
+
+app.get('/feedback/challenge/:challengeId',(req,res)=>{
+    var cID=req.params.challengeId;
+    conn.query('SELECT challengesFeedback.*,user.email FROM challengesFeedback INNER JOIN user ON challengesFeedback.cUserID_fk=user.userID WHERE cChallengeID_fk = ? ORDER BY cFeedbackRating DESC',[cID],(err,rows,fields)=>{
+        if(!err)
+        res.send(rows);
+        else
+        console.log(err);
+    })
+});
+
+var curday = function(){
+    today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; 
+    var yyyy = today.getFullYear();
+    
+    if(dd<10) dd='0'+dd;
+    if(mm<10) mm='0'+mm;
+    return (yyyy+"-"+mm+"-"+dd);
+    
+}
+
+
+app.post('/feedback/challenge/new',(req,res,next)=>{
+   
+    var challengeText=req.body.cFeedbackText;
+   
+    
+
+    conn.query('INSERT INTO `challengesFeedback`(`cFeedbackText`, `cFeedbackRating`, `cUserID_fk`, `cChallengeID_fk`) VALUES (?,?,?,?)',[challengeText,1,7,1],function(err,result,fields){
+        conn.on('error',function(err){
+            console.log('MYSQL Error',err);
+        });
+    }); 
+
+    res.send("oke")
+
+        
+    
+})
+
+
+app.post('/challenge/new',(req,res,next)=>{
+   
+    
+    var challengeTitle = req.body.title;
+    var challengeDescription = req.body.description;
+    var challengeInstructions = req.body.instructions;
+    var endDate = req.body.end_date;
+    console.log(endDate);
+
+   
+        conn.query('INSERT INTO `challenges`(`title`, `description`, `instructions`,`creation_date`,`end_date`,`challenge_userID`) VALUES (?,?,?,CURDATE(),?,?)',[challengeTitle,challengeDescription,challengeInstructions,endDate,7],function(err,result,fields){
+            conn.on('error',function(err){
+                console.log('MYSQL Error',err);
+            });
+            res.send("oke fine")
+        }); 
+    
+
+    
+
+    
+    
+        
+    
+})
+
+
+
+
+
+///----------------------------------------------------------------------------------------
+
+
+
+
 
 //CREATE NEW IDEA
 
@@ -165,21 +319,8 @@ app.get('/user/:email',(req,res)=>{
 
 //CREATE NEW GROUP
 
-app.post('/group/new',(req,res,next)=>{
-   
-    
-    var ideaTitle=req.body.name;
-    var description =req.body.description;
-    
-    conn.query('INSERT INTO `groups`(`name`, `description`, `type`) VALUES (?,?,?)',[ideaTitle,description,"idea"],function(err,result,fields){
-        conn.on('error',function(err){
-            console.log('MYSQL Error',err);
-        });
-    }); 
 
-        
-    
-})
+
 
 
 
@@ -199,4 +340,7 @@ app.get('/', (req, res,next) => {
      console.log('Encrypt:'+saltHashPassword("123456").passwordHash);
      console.log('Salt:'+saltHashPassword("123456").salt);*/
      res.send('Servidor a bombar!')
+    
+     
  });
+ console.log("Hoje é dia: "+curday())
