@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ideation.Retrofit.INodeJS;
 import com.example.ideation.Retrofit.RetrofitClient;
@@ -30,15 +33,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProfileFragment extends Fragment {
 
     private String email = MainActivity.getLoggedUserEmail();
+    private String loggedUserID = GroupsFragment.userID;
     private List<User> users;
     private INodeJS api;
     private TextView userName;
     private TextView userBio;
     private TextView userEmail;
     private TextView userRating;
+    private TextView userFunds;
     private String name;
     private String bio;
     private Double rating;
+    private String funds;
+    private ImageButton editBio;
+    private List<Transaction> tList;
+    private RecyclerView profileRecyclerView;
+    private RecyclerView.Adapter profileAdapter;
+    private RecyclerView.LayoutManager profileLayoutManager;
+
 
 
     @Nullable
@@ -49,6 +61,9 @@ public class ProfileFragment extends Fragment {
         userBio = v.findViewById(R.id.textView_profile_bio);
         userEmail = v.findViewById(R.id.profile_email);
         userRating = v.findViewById(R.id.profile_rating);
+        editBio = v.findViewById(R.id.btn_edit_bio);
+        userFunds = v.findViewById(R.id.profile_funds);
+        profileRecyclerView = v.findViewById(R.id.profile_RecyclerView);
         return v;
 
     }
@@ -66,8 +81,28 @@ public class ProfileFragment extends Fragment {
 
         api  = retrofit.create(INodeJS.class);
         getUserInfo();
+        getTransactions(Integer.parseInt(loggedUserID));
+
+
 
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        editBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditBioDialog editBioDialog = new EditBioDialog();
+                editBioDialog.show(getFragmentManager(),"User Bio Update");
+
+
+
+            }
+        });
+    }
+
+
 
     private void getUserInfo(){
 
@@ -82,13 +117,20 @@ public class ProfileFragment extends Fragment {
                 }
 
                 users =  response.body();
+
                 for(User user : users ){
                     name = user.getName();
                     bio = user.getUserBio();
                     rating = user.getRating();
+                    funds = user.getFunds().toString();
+
+
+
                 }
+
                 userName.setText(name);
-               // userBio.setText(bio); ------------------------------Está a dar null
+                userFunds.setText(funds);
+                userBio.setText(bio);
                 userRating.setText(rating.toString());
                 userEmail.setText(email);
 
@@ -105,6 +147,45 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    public void getTransactions(int id){
+        Call<List<Transaction>> call = api.getTransactionByUser(id);
+
+        call.enqueue(new Callback<List<Transaction>>() {
+            @Override
+            public void onResponse(Call<List<Transaction>>call, Response<List<Transaction>> response) {
+                if(!response.isSuccessful()){
+                    System.out.println("!= Successful" + response.code());
+                    return;
+                }
+
+                tList =  response.body();
+                setupRecyclerView();
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+                System.out.println("OnFailure" + t.getMessage());
+            }
+        });
+
+
+
+    }
+    public void setupRecyclerView(){
+        profileAdapter = new ProfileRecyclerAdapter(tList, getContext());
+        profileLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        profileRecyclerView.setLayoutManager(profileLayoutManager);
+        profileRecyclerView.setAdapter(profileAdapter);
+
+
+
+    }
 
 
 }

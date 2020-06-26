@@ -2,10 +2,12 @@ package com.example.ideation;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FeedbackDialog extends AppCompatDialogFragment {
 
+    private String loggedUserID = GroupsFragment.userID;
     private String loggedEmail = MainActivity.getLoggedUserEmail();
+    private String clickedGroupID = GRecyclerAdapter.getClickedGroupID();
 
     private EditText editTextFeedbackText;
     INodeJS api;
@@ -33,6 +37,7 @@ public class FeedbackDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.feedback_layout,null);
+       // System.out.println("napagina certa:  "+loggedUserID);
 
 
         builder.setView(view)
@@ -48,8 +53,9 @@ public class FeedbackDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         String newFeedBackText = editTextFeedbackText.getText().toString();
-                        Feedback newFeedback = new Feedback(newFeedBackText, (double) 0,1,1,loggedEmail);
+                        Feedback newFeedback = new Feedback(newFeedBackText, (double) 0,Integer.parseInt(loggedUserID),Integer.parseInt(clickedGroupID),loggedEmail);
                         createNewFeedback(newFeedback);
+                        Toast.makeText(getContext(),"Thank you for sharing your Feedback!", Toast.LENGTH_SHORT).show();
 
 
                     }

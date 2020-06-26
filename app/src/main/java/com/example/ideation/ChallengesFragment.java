@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,8 +33,9 @@ public class ChallengesFragment extends Fragment {
     private RecyclerView.Adapter challengerAdapter;
     private RecyclerView.LayoutManager challengeLayoutManager;
     private FloatingActionButton btnNewChallenge;
-    ArrayList<ChallengeGroup> challenges=new ArrayList<>();
+    ArrayList<UserChallenge> challenges=new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String loggedUserID = GroupsFragment.userID;
 
 
 
@@ -41,34 +43,8 @@ public class ChallengesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        INodeJS api = retrofit.create(INodeJS.class);
-
-
-        Call<List<ChallengeGroup>> call = api.getChallenges();
-        call.enqueue(new Callback<List<ChallengeGroup>>() {
-            @Override
-            public void onResponse(Call<List<ChallengeGroup>> call, Response<List<ChallengeGroup>> response) {
-                if (!response.isSuccessful()) {
-                    System.out.println("!= Successful" + response.code());
-                    return;
-                }
-
-                challenges = (ArrayList<ChallengeGroup>) response.body();
-
-                setupRecyclerView();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<ChallengeGroup>> call, Throwable t) {
-                System.out.println("OnFailure" + t.getMessage());
-            }
-        });
+        getInfo(loggedUserID);
 
 
     }
@@ -86,38 +62,9 @@ public class ChallengesFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://10.0.2.2:3000/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                INodeJS api = retrofit.create(INodeJS.class);
-
-
-                Call<List<ChallengeGroup>> call = api.getChallenges();
-                call.enqueue(new Callback<List<ChallengeGroup>>() {
-                    @Override
-                    public void onResponse(Call<List<ChallengeGroup>> call, Response<List<ChallengeGroup>> response) {
-                        if (!response.isSuccessful()) {
-                            System.out.println("!= Successful" + response.code());
-                            return;
-                        }
-
-                        challenges = (ArrayList<ChallengeGroup>) response.body();
-
-                        setupRecyclerView();
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<ChallengeGroup>> call, Throwable t) {
-                        System.out.println("OnFailure" + t.getMessage());
-                    }
-
-
-                });
-
+               getInfo(loggedUserID);
                 swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(),"Refreshed!", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -154,4 +101,41 @@ public class ChallengesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
+    public void getInfo(String loggedUserID){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        INodeJS api = retrofit.create(INodeJS.class);
+
+
+        Call<List<UserChallenge>> call = api.getUserChallenges(Integer.parseInt(loggedUserID));
+        call.enqueue(new Callback<List<UserChallenge>>() {
+            @Override
+            public void onResponse(Call<List<UserChallenge>> call, Response<List<UserChallenge>> response) {
+                if (!response.isSuccessful()) {
+                    System.out.println("!= Successful" + response.code());
+                    return;
+                }
+
+                challenges = (ArrayList<UserChallenge>) response.body();
+                for(UserChallenge u:challenges){
+                    System.out.println(u.getDescription()+"\n"+u.getInstructions()+"\n"+u.getEmail());
+                }
+                setupRecyclerView();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<UserChallenge>> call, Throwable t) {
+                System.out.println("OnFailure" + t.getMessage());
+            }
+        });
+
+    }
+
+
+
 }

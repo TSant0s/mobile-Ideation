@@ -34,6 +34,14 @@ private RecyclerView.Adapter groupAdapter;
 private RecyclerView.LayoutManager groupLayoutManager;
 private Retrofit Retrofit;
 ArrayList<Group> groups = new ArrayList<>();
+ArrayList<userGroups> userGroups = new ArrayList<>();
+private INodeJS api;
+private String email = MainActivity.getLoggedUserEmail();
+private List<User> users;
+
+public static String userID;
+public static Double funds;
+
 
 private SwipeRefreshLayout swipeRefreshLayout;
 private FloatingActionButton btnNewIdea;
@@ -42,38 +50,9 @@ private FloatingActionButton btnNewIdea;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        INodeJS api  = retrofit.create(INodeJS.class);
-
-
-        Call<List<Group>> call = api.getGroups();
-        call.enqueue(new Callback<List<Group>>() {
-            @Override
-            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                if(!response.isSuccessful()){
-                    System.out.println("!= Successful" + response.code());
-                    return;
-                }
-
-                groups = (ArrayList<Group>) response.body();
-                setupRecyclerView();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Group>> call, Throwable t) {
-                System.out.println("OnFailure" + t.getMessage());
-            }
-        });
-//------------------------------------------------
+        getUserInfo(email);
 
     }
 
@@ -88,37 +67,8 @@ private FloatingActionButton btnNewIdea;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://10.0.2.2:3000/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                INodeJS api  = retrofit.create(INodeJS.class);
-
-
-                Call<List<Group>> call = api.getGroups();
-                call.enqueue(new Callback<List<Group>>() {
-                    @Override
-                    public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                        if(!response.isSuccessful()){
-                            System.out.println("!= Successful" + response.code());
-                            return;
-                        }
-
-                        groups = (ArrayList<Group>) response.body();
-                        setupRecyclerView();
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Group>> call, Throwable t) {
-                        System.out.println("OnFailure" + t.getMessage());
-                    }
-                });
-
-                setupRecyclerView();
+                getUserGroups(Integer.parseInt(userID));
                 swipeRefreshLayout.setRefreshing(false);
-
             }
         });
 
@@ -126,7 +76,6 @@ private FloatingActionButton btnNewIdea;
             @Override
             public void onClick(View v) {
                 openDialog();
-
             }
         });
         return v;
@@ -143,7 +92,7 @@ private FloatingActionButton btnNewIdea;
 
 
     public void setupRecyclerView(){
-        groupAdapter = new GRecyclerAdapter(groups, getContext());
+        groupAdapter = new GRecyclerAdapter(userGroups, getContext());
         groupLayoutManager = new LinearLayoutManager(getActivity());
         groupRecyclerView.setLayoutManager(groupLayoutManager);
         groupRecyclerView.setAdapter(groupAdapter);
@@ -156,6 +105,83 @@ private FloatingActionButton btnNewIdea;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
+
+
+    private void getUserInfo(String email){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        INodeJS api  = retrofit.create(INodeJS.class);
+
+
+        Call<List<User>> call = api.getUserInfo(email);
+
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>>call, Response<List<User>> response) {
+                if(!response.isSuccessful()){
+                    System.out.println("!= Successful" + response.code());
+                    return;
+                }
+
+                users =  response.body();
+                for(User user : users ){
+
+                  userID = String.valueOf(user.getUserID());
+                  funds =user.getFunds();
+                  getUserGroups(Integer.parseInt(userID));
+                    System.out.println(userID);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                System.out.println("OnFailure" + t.getMessage());
+            }
+        });
+
+    }
+
+
+    public void getUserGroups(int id){
+
+        Retrofit retrofit1 = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        INodeJS api1  = retrofit1.create(INodeJS.class);
+
+
+        Call<List<userGroups>> call1 = api1.getUserGroups(id);
+        call1.enqueue(new Callback<List<userGroups>>() {
+            @Override
+            public void onResponse(Call<List<userGroups>> call, Response<List<userGroups>> response) {
+                if(!response.isSuccessful()){
+                    System.out.println("!= Successful" + response.code());
+                    return;
+                }
+
+                userGroups = (ArrayList<userGroups>) response.body();
+
+                setupRecyclerView();
+                for(userGroups u: userGroups){
+                    System.out.println(u.getGroupID_fk()+"\n"+u.getDescription()+"\n"+u.getName()+"\n");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<userGroups>> call, Throwable t) {
+                System.out.println("OnFailure" + t.getMessage());
+            }
+        });
+    }
+
+
 
 
 

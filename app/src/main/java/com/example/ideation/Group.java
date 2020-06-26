@@ -8,8 +8,8 @@ public class Group {
 
 
 
-    @SerializedName("Body")
-    private int groupId;
+
+    private int groupID;
     private String name,email,description,type;
     private int userID_creator;
 
@@ -29,7 +29,7 @@ public class Group {
     }
 
     public int getGroupId() {
-        return groupId;
+        return groupID;
     }
 
     public int getUserID_creator() {

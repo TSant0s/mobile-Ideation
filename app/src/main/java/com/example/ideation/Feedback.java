@@ -11,9 +11,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Feedback {
+    private int feedbackID;
     private String text;
     private Double rating;
-    private int userID_fk,grupoId;
+    private int userID_fk,grupoID_fk;
 
     private INodeJS api;
     private List<User> usersEmails;
@@ -21,12 +22,16 @@ public class Feedback {
 
 
 
-    public Feedback(String text, Double rating, int userID_fk, int grupoId, String email) {
+    public Feedback(String text, Double rating, int userID_fk, int grupoID_fk, String email) {
         this.text = text;
         this.email=email;
         this.rating = rating;
         this.userID_fk = userID_fk;
-        this.grupoId = grupoId;
+        this.grupoID_fk = grupoID_fk;
+    }
+
+    public int getFeedbackID() {
+        return feedbackID;
     }
 
     public String getFeedbackUserEmail() {
@@ -50,7 +55,7 @@ public class Feedback {
     }
 
     public int getGrupoId() {
-        return grupoId;
+        return grupoID_fk;
     }
 
 

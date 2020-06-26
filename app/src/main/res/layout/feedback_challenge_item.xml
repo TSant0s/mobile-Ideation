@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    app:cardCornerRadius="4dp"
-    app:cardUseCompatPadding="true"
     android:id="@+id/challenge_feedback_item"
-    android:padding="15dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+
+    app:cardCornerRadius="13dp"
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="412dp"
@@ -17,60 +18,61 @@
 
         <TextView
             android:id="@+id/textView_challenge_feedback_text"
-            android:layout_width="match_parent"
-            android:layout_height="93dp"
+            android:layout_width="399dp"
+            android:layout_height="89dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="0dp" />
-
-        <Button
-            android:id="@+id/button_challenge_feedback_vote"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="295dp"
-            android:layout_marginBottom="0dp"
-            android:text="Vote" />
+            android:layout_marginEnd="13dp"
+            android:fontFamily="sans-serif-black" />
 
         <TextView
             android:id="@+id/textView_challenge_feedback_username"
-            android:layout_width="151dp"
-            android:layout_height="36dp"
+            android:layout_width="255dp"
+            android:layout_height="39dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginBottom="2dp"
+            android:fontFamily="sans-serif-black"
             android:text="Username teste"
             android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textView_challenge_feedback_rating"
-            android:layout_width="wrap_content"
+            android:layout_width="37dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="148dp"
-            android:layout_marginBottom="10dp"
-            android:text="20"
-            android:textSize="15dp" />
+            android:layout_marginEnd="87dp"
+            android:layout_marginBottom="9dp"
+            android:fontFamily="sans-serif-black"
+            android:text=""
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="249dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginStart="263dp"
+            android:layout_marginBottom="4dp"
             app:srcCompat="@drawable/ic_stars_black_24dp" />
+
+        <com.like.LikeButton
+            android:id="@+id/like_button_challengeFeedback"
+            android:layout_width="42dp"
+            android:layout_height="37dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="44dp"
+            android:layout_marginBottom="3dp"
+            app:icon_size="25dp"
+            app:icon_type="heart" />
 
 
     </RelativeLayout>
-
-
-
 
 
 </androidx.cardview.widget.CardView>

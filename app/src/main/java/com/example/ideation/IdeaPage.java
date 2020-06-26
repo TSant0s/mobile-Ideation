@@ -14,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ideation.Retrofit.INodeJS;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,8 @@ public class IdeaPage extends AppCompatActivity {
     private RecyclerView.Adapter feedbackAdapter;
     private RecyclerView.LayoutManager feedbackLayoutManager = new LinearLayoutManager(this);
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String grupoID = GRecyclerAdapter.getClickedGroupID();
+    public LikeButton likeButtonGroupFeedback;
 
 
     ArrayList<Feedback> feedbacks = new ArrayList<>();
@@ -48,9 +53,12 @@ public class IdeaPage extends AppCompatActivity {
         String ideaName = getIntent().getExtras().getString("name");
         String ideaDescription = getIntent().getExtras().getString("description");
 
+      //  System.out.println(" OKOKOKOKOKOOKOKOKOOKOOKOKOKOKOK--ID DO GRUPO CLICADO TESTE IDEAPAGE:  "  +grupoID);
+
         TextView idea_name = findViewById(R.id.textView_idea_name);
         TextView idea_description = findViewById(R.id.textView_idea_description);
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout_ideaFeedback);
+        likeButtonGroupFeedback=findViewById(R.id.like_button_groupFeedback);
 
         feedbackRecyclerView = findViewById(R.id.feedback_RecyclerView);
         btnNewComment = findViewById(R.id.button_new_comment);
@@ -58,6 +66,10 @@ public class IdeaPage extends AppCompatActivity {
 
         idea_name.setText(ideaName);
         idea_description.setText(ideaDescription);
+
+
+
+
 
 
 
@@ -73,7 +85,7 @@ public class IdeaPage extends AppCompatActivity {
                 INodeJS api  = retrofit.create(INodeJS.class);
 
 
-                Call<List<Feedback>> callFeedback = api.getGroupFeedback("1");
+                Call<List<Feedback>> callFeedback = api.getGroupFeedback(grupoID);
                 callFeedback.enqueue(new Callback<List<Feedback>>() {
                     @Override
                     public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
@@ -113,6 +125,8 @@ public class IdeaPage extends AppCompatActivity {
 
 
                 swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Refreshed!", Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -139,7 +153,7 @@ public class IdeaPage extends AppCompatActivity {
         INodeJS api  = retrofit.create(INodeJS.class);
 
 
-        Call<List<Feedback>> callFeedback = api.getGroupFeedback("1");
+        Call<List<Feedback>> callFeedback = api.getGroupFeedback(grupoID);
         callFeedback.enqueue(new Callback<List<Feedback>>() {
             @Override
             public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
@@ -180,6 +194,9 @@ public class IdeaPage extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 }

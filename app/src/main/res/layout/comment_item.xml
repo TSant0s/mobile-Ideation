@@ -17,60 +17,64 @@
 
         <TextView
             android:id="@+id/textView_feedback_text"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_width="394dp"
+            android:layout_height="64dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="0dp" />
-
-        <Button
-            android:id="@+id/button_feedback_vote"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="295dp"
-            android:layout_marginBottom="0dp"
-            android:text="Vote" />
+            android:layout_marginEnd="0dp"
+            android:fontFamily="sans-serif-black" />
 
         <TextView
             android:id="@+id/textView_feedback_username"
-            android:layout_width="149dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
             android:layout_alignParentStart="true"
-            android:textSize="15dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="8dp"
-            android:text="Username teste" />
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@+id/imageView"
+            android:fontFamily="sans-serif-black"
+            android:text="Username teste"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textView_feedback_rating"
-            android:layout_width="wrap_content"
+            android:layout_width="37dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="148dp"
-            android:textSize="15dp"
-            android:layout_marginBottom="10dp"
-            android:text="20" />
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="9dp"
+            android:layout_toStartOf="@+id/like_button_groupFeedback"
+            android:fontFamily="sans-serif-black"
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_height="34dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="249dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toStartOf="@+id/textView_feedback_rating"
             app:srcCompat="@drawable/ic_stars_black_24dp" />
+
+        <com.like.LikeButton
+            android:id="@+id/like_button_groupFeedback"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_below="@+id/textView_feedback_text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="-2dp"
+            app:icon_size="25dp"
+            app:icon_type="heart" />
 
 
     </RelativeLayout>
-
-
-
 
 
 </androidx.cardview.widget.CardView>

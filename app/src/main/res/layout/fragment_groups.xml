@@ -52,7 +52,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif-black"
         android:textColor="#000"
         android:text="Idea Groups"
         android:textSize="32dp" />

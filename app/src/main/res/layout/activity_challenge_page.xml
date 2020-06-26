@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     tools:context=".ChallengePage">
 
@@ -47,7 +48,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="103dp"
                     android:layout_height="25dp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="sans-serif-black"
                     android:gravity="center"
                     android:text="End Date: "
                     android:textColor="#000"
@@ -62,7 +63,7 @@
                     android:id="@+id/textView_challengePage_endDate"
                     android:layout_width="127dp"
                     android:layout_height="25dp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="sans-serif-black"
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#000"
@@ -79,7 +80,7 @@
                     android:id="@+id/textView_challengePage_title"
                     android:layout_width="397dp"
                     android:layout_height="50dp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="sans-serif-black"
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#000"
@@ -96,7 +97,7 @@
                     android:layout_width="391dp"
                     android:layout_height="114dp"
                     android:background="@drawable/color_textview"
-                    android:fontFamily="monospace"
+                    android:fontFamily="sans-serif-black"
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#000"
@@ -114,7 +115,7 @@
                     android:layout_width="387dp"
                     android:layout_height="97dp"
                     android:background="@drawable/color_textview"
-                    android:fontFamily="monospace"
+                    android:fontFamily="sans-serif-black"
                     android:gravity="center"
                     android:text="TextView"
                     android:textColor="#000"
@@ -124,6 +125,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_get_challenge_feedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#85EAF1F1"
+                    android:text="Download \n File"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.904"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.791" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -141,20 +155,21 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_challengeFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout_challengeFeedback"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+        android:background="#FFFFFF"
+        android:backgroundTint="#D5FBFB"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
+            android:id="@+id/recyclerView_feedback_challenge"
 
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerView_feedback_challenge"/>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 

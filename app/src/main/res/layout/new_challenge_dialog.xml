@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:padding="16dp">
 
@@ -8,27 +10,53 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="Challenge Title" />
+        android:hint="Challenge Title"
+        app:layout_constraintBottom_toTopOf="@+id/new_challenge_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
 
         android:id="@+id/new_challenge_description"
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:gravity="center"
         android:layout_below="@+id/new_challenge_title"
-        android:layout_marginTop="7dp"
-        android:hint="Challenge Description" />
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:hint="Challenge Description"
+        app:layout_constraintBottom_toTopOf="@+id/new_challenge_instructions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
 
         android:id="@+id/new_challenge_instructions"
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:gravity="center"
         android:layout_below="@+id/new_challenge_description"
-        android:layout_marginTop="7dp"
-        android:hint="Challenge Instructions/Goals" />
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:hint="Challenge Instructions/Goals"
+        app:layout_constraintBottom_toTopOf="@+id/new_challenge_endDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+
+        android:id="@+id/new_add_users_challenges"
+        android:layout_width="272dp"
+        android:layout_height="62dp"
+        android:layout_below="@+id/new_challenge_description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="364dp"
+        android:gravity="center"
+        android:hint="Add Users Email Here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
 
@@ -36,9 +64,23 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:layout_below="@+id/new_challenge_instructions"
-        android:layout_marginTop="7dp"
         android:gravity="center"
-        android:hint="Target Date in YYYY-MM-DD" />
+        android:hint="Target Date in YYYY-MM-DD"
+        app:layout_constraintBottom_toTopOf="@+id/new_add_users_challenges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="61dp"
+        android:layout_height="58dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.596"
+        app:layout_constraintStart_toEndOf="@+id/new_add_users_challenges"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.419"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

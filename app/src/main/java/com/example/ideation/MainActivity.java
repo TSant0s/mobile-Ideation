@@ -14,10 +14,15 @@ import com.example.ideation.Retrofit.INodeJS;
 import com.example.ideation.Retrofit.RetrofitClient;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText passwordLoginInput;
     private ImageButton btnLogin;
     private Button btnOpenRegister;
+
     public static String loggedUserEmail;
+    private INodeJS api;
+
+    public static String userID;
 
 
 
@@ -39,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
 
         //Initialize API
@@ -89,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void accept(String s) throws Exception {
                         if(s.contains("salt")) {
+                            setLoggedUserEmail(email);
                             Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
                             openMainPage();
-                            setLoggedUserEmail(email);
+
 
 
                         } else
@@ -101,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 })
         );
     }
+
+
 
 
     public void openMainPage(){
@@ -113,7 +128,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*private void getUserInfo(){
 
+
+
+    }*/
+
+    public static String getUserID(){
+        return userID;
+    }
 
 
 }

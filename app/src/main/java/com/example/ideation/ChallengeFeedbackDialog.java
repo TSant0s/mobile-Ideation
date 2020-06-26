@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChallengeFeedbackDialog extends AppCompatDialogFragment {
     private String loggedEmail = MainActivity.getLoggedUserEmail();
+    private String loggedUserID = GroupsFragment.userID;
+    private int clickedChallengeID = CRecyclerAdapter.getClickedChallengeID();
 
     private EditText editTextChallengeFeedbackText;
     INodeJS api;
@@ -36,6 +39,8 @@ public class ChallengeFeedbackDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.challenge_feedback_layout,null);
+
+        System.out.println("id atraves do dialog: "+loggedUserID);
 
 
 
@@ -52,8 +57,11 @@ public class ChallengeFeedbackDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         String newChallengeFeedbackText = editTextChallengeFeedbackText.getText().toString();
-                        FeedbackChallenge newFeedbackChallenge = new FeedbackChallenge(1, newChallengeFeedbackText, (double) 1,loggedEmail);
+                        FeedbackChallenge newFeedbackChallenge = new FeedbackChallenge(clickedChallengeID, newChallengeFeedbackText, (double) 1,loggedEmail,Integer.parseInt(loggedUserID));
                         createNewFeedbackChallenge(newFeedbackChallenge);
+
+
+                        Toast.makeText(getContext(),"Thank you for sharing your feedback!", Toast.LENGTH_SHORT).show();
 
 
                     }

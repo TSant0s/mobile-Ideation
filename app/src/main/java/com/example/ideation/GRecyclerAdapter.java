@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.GroupViewHolder> {
-    private List<Group> gGroupList;
+    private List<userGroups> gGroupList;
     private Context mContext;
+    static String clickedGroupID;
 
 
 
@@ -35,7 +36,7 @@ public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.Grou
     }
 
 
-    public GRecyclerAdapter(ArrayList<Group> gGroupList, Context mContext){
+    public GRecyclerAdapter(ArrayList<userGroups> gGroupList, Context mContext){
         this.gGroupList=gGroupList;
         this.mContext=mContext;
     }
@@ -49,10 +50,17 @@ public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.Grou
 
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-    Group currentGroup = gGroupList.get(position);
+    userGroups currentGroup = gGroupList.get(position);
+
+
     holder.group_item.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+          //  System.out.println(currentGroup.getDescription() +"    "+currentGroup.getUserID_creator() );
+
+
+            clickedGroupID = String.valueOf(currentGroup.getGroupID_fk());
+         //   System.out.println("-------------------------------------------------------------ID DO GRUPO CLICADO   "+clickedGroupID);
             Intent intent = new Intent(mContext, IdeaPage.class);
             intent.putExtra("name",gGroupList.get(position).getName());
             intent.putExtra("description",gGroupList.get(position).getDescription());
@@ -61,7 +69,13 @@ public class GRecyclerAdapter extends RecyclerView.Adapter<GRecyclerAdapter.Grou
     });
     holder.textViewGroupName.setText(currentGroup.getName());
 
-    holder.textViewGroupUser.setText("Creator:  " + currentGroup.getEmail());
+    holder.textViewGroupUser.setText(currentGroup.getEmail());
+    }
+
+
+
+    public static String getClickedGroupID(){
+        return clickedGroupID;
     }
 
     @Override

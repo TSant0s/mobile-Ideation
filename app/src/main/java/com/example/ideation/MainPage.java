@@ -7,18 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.ideation.Retrofit.INodeJS;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class MainPage extends AppCompatActivity {
+
 
 
     @Override
@@ -28,6 +20,7 @@ public class MainPage extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GroupsFragment()).commit();
+
 
 
     }
@@ -51,8 +44,8 @@ public class MainPage extends AppCompatActivity {
                 case R.id.nav_challenges:
                     selectedFragment = new ChallengesFragment();
                     break;
-                case R.id.nav_routines:
-                    selectedFragment = new RoutinesFragment();
+                case R.id.nav_leaderboard:
+                    selectedFragment = new LeaderboardFragment();
                     break;
 
             }
@@ -64,7 +57,6 @@ public class MainPage extends AppCompatActivity {
 
         }
     };
-
 
 
 

@@ -2,6 +2,8 @@ package com.example.ideation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,9 @@ public class register_page extends AppCompatActivity {
 
 INodeJS myAPI;
 CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+
+public Context context = getBaseContext();
 
 
 
@@ -56,6 +61,7 @@ private Button btnRegister;
             @Override
             public void onClick(View v) {
                registerUser(nameRegisterInput.getText().toString(),emailRegisterInput.getText().toString(),passwordRegisterInput.getText().toString());
+
             }
         });
 
@@ -74,13 +80,20 @@ private Button btnRegister;
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        Toast.makeText(register_page.this, ""+s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(register_page.this, ""+s+"  Now please Log in!", Toast.LENGTH_SHORT).show();
+                        openLoginPage();
+
 
                     }
                 })
         );
     }
 
+    public void openLoginPage(){
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+
+    }
 
 
 
